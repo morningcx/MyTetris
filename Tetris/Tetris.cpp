@@ -44,6 +44,9 @@ void Tetris::startGame() {
 				break;
 			}
 		}
+		if (key != 80) { // 向下键排除在外
+			Sleep(1); // 加延迟，以避免循环消耗过大，cpu占用率过高
+		}
 		t_end = GetTickCount(); // 记录处理结束时间
 		remind -= t_end - t_start; // 计算下降剩余时间
 		if (key == 80 || remind < 0) { // 按下向下键或者自动下降时间已到
@@ -53,9 +56,9 @@ void Tetris::startGame() {
 				next = getRandomShape();
 				canvas.setNext(next->getString());
 				gameContinue = curr->addToCanvas(canvas);
-				// 每出现一个方块图形，下降延迟-10ms
+				// 每出现一个方块图形，下降延迟-5ms
 				// 后期速度快（刷新打印字符太慢）可能会出现按键延迟的现象
-				speed -= 10; 
+				speed -= 5; 
 			}
 			remind = speed;
 		}
